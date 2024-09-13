@@ -1,0 +1,19 @@
+# meta
+name: sched1
+active: false
+
+# trigger and args
+schedule: "@every 5s"
+# example cron specs:
+# - */1 * * * * (at minute 0)
+# - @every 1m
+# - @every 10s
+# - 59 * * * * * (every minute using Quartz spec format)
+
+format_output: "Hello, from Scheduler 1!"
+
+output_to_rooms:
+  - general
+
+# help
+include_in_help: false

@@ -1,0 +1,29 @@
+# meta
+name: weather-rule
+active: true
+# trigger and args
+respond: weather
+args:
+  - lonlat
+# actions
+actions:
+  - name: weather http request
+    type: GET
+    url: http://api.weather.gov/points/${lonlat}
+    expose_json_fields:
+      city: '.properties.relativeLocation.properties.city'
+      state: '.properties.relativeLocation.properties.state'
+      fc_url: '.properties.forecast'
+  - name: get forecast
+    type: GET
+    url: ${fc_url}
+    expose_json_fields:
+      tomorrow_temp: |-
+        {{ (index .properties.periods 1).temperature }}{{ (index .properties.periods 1).temperatureUnit }}
+# response
+format_output: "Tomorrow's temperature in ${city}, ${state} will be ${tomorrow_temp}"
+direct_message_only: false
+
+# help
+help_text: weather <lon,lat>
+include_in_help: true
